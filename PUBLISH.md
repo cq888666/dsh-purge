@@ -1,7 +1,16 @@
 # 发布到 GitHub
 
-仓库已经在本地初始化并提交，`v1.7.0` tag 已打好，远端已配置为
-`https://github.com/cq888666/dsh-purge.git`。
+**当前状态（2026-11-15）：已发布。**
+
+- 仓库：<https://github.com/cq888666/dsh-purge>
+- Release：<https://github.com/cq888666/dsh-purge/releases/tag/v1.7.0>
+- 附件：`dsh-purge-plus-1.7.0.tgz`（1,560,555 字节）+ `SHA256SUMS.txt`
+- CI：`main` 的 Community checks 全绿；release 工作流成功
+- tag `v1.7.0` 指向 `652b1d6`；`main` 在其后多了 Prettier 格式修正
+
+下面保留完整步骤，供下一次发版使用。
+
+仓库已经初始化并提交，远端为 `https://github.com/cq888666/dsh-purge.git`。
 
 ## 最快路径（Windows，无需安装 gh）
 
