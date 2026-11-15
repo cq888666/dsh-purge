@@ -3,7 +3,11 @@
 # install.sh 一旦变成 CRLF，macOS/Linux 用户 `curl ... | sh` 会直接失败：
 #   sh: 1: $'\r': command not found
 #   /bin/sh^M: bad interpreter: No such file or directory
+#
+# 源码也统一 LF：esbuild 会把模板字符串里的换行原样打进 client.js，
+# Windows 检出成 CRLF 时 bundle 与 Linux CI 不一致，check:client 会失败。
 
+* text=auto eol=lf
 *.sh  text eol=lf
 *.ps1 text eol=crlf
 *.cmd text eol=crlf
