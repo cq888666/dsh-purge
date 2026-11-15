@@ -39,10 +39,18 @@ const output =
   "\nreturn module.exports;\n}});\n";
 const dest = path.join(community ? projectRoot : root, "client.js");
 if (process.argv.includes("--check")) {
-  if ((await fs.readFile(dest, "utf8")) !== output)
+  const current = await fs.readFile(dest, "utf8");
+  if (current !== output) {
+    let at = 0;
+    while (at < current.length && at < output.length && current[at] === output[at]) at += 1;
+    const line = current.slice(0, at).split("\n").length;
+    console.error(`client.js differs from generated output at line ${line} (byte ${at})`);
+    console.error("checked-in:", JSON.stringify(current.slice(at, at + 200)));
+    console.error("generated: ", JSON.stringify(output.slice(at, at + 200)));
     throw new Error(
       "client.js is stale; run npm run build and commit the output.",
     );
+  }
   console.log("PASS: checked-in bundle matches source");
 } else {
   await fs.writeFile(dest, output);
