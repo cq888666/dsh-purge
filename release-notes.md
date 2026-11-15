@@ -6,6 +6,7 @@
 - **恢复 3 条补丁**：#17 观察策略（`editIntent` 收敛为 `requirePresent()`）；#60 run_code 审批话术（代码迁到 `dsh-tool-executor-ptc`）；#62 工具审批 fail-open（`dsh-tools` 拆出 `pipeline.js`）。
 - **验证结果**：在 DSH Desktop 0.2.2-rc.1 的 `app.asar` 解包副本上执行 apply，78/78 锚点解析、0 漂移、宿主层自检 24/24 通过；运行时注入/权限选择/宿主布局三层的 ✗ 属于解包副本环境预期（未在真实 profile 中激活）。
 - **兼容性**：保留 0.2.1-rc.1 / 0.2.1-rc.2 支持；已加入 `QUALIFIED_HOST_VERSIONS`。
+- **Windows 安装器**：优先调用 `%SystemRoot%\System32\tar.exe`（bsdtar）。PATH 里同时有 Git Bash / MSYS 的 GNU tar 时，后者会把 `C:\...` 当远程主机并报 `Cannot connect to C: resolve failed`。
 
 # 1.6.1
 

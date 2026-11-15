@@ -59,12 +59,17 @@ if (-not (Test-Path $pkgPath)) {
 }
 Ok "profile = $profileDir"
 
-# tar.exe：Windows 10 1803+ 自带
-$tar = Get-Command tar.exe -ErrorAction SilentlyContinue
-if (-not $tar) {
-  Die '找不到 tar.exe —— 需要 Windows 10 1803 或更高，或改用 -Tarball 指定已解压目录'
+# tar.exe：优先用 Windows 自带的 bsdtar。Git Bash / MSYS 的 GNU tar 也在 PATH 里时，
+# 它会把 "C:\..." 当成远程主机（tar: Cannot connect to C: resolve failed），必须避开。
+$tarExe = Join-Path $env:SystemRoot 'System32\tar.exe'
+if (-not (Test-Path $tarExe)) {
+  $tar = Get-Command tar.exe -ErrorAction SilentlyContinue
+  if (-not $tar) {
+    Die '找不到 tar.exe —— 需要 Windows 10 1803 或更高，或改用 -Tarball 指定已解压目录'
+  }
+  $tarExe = $tar.Source
 }
-Ok "tar = $($tar.Source)"
+Ok "tar = $tarExe"
 
 # ---------- 2. 确认 DSH 已退出 ----------
 Say ''
@@ -118,7 +123,7 @@ $extractRoot = Join-Path $work 'unpacked'
 if (Test-Path $extractRoot) { Remove-Item $extractRoot -Recurse -Force }
 New-Item -ItemType Directory -Force -Path $extractRoot | Out-Null
 
-& $tar.Source -xzf $tgz -C $extractRoot
+& $tarExe -xzf $tgz -C $extractRoot
 if ($LASTEXITCODE -ne 0) { Die "解压失败（tar exit $LASTEXITCODE）" }
 
 $srcDir = Get-ChildItem $extractRoot -Directory | Select-Object -First 1
