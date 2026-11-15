@@ -50,7 +50,7 @@ function setup() {
     JSON.stringify({
       name: PACKAGE,
       version: "1.2.0",
-      repository: { url: "https://github.com/kingcharleslzy-ai/dsh-purge.git" },
+      repository: { url: "https://github.com/cq888666/dsh-purge.git" },
     }),
   );
   const candidate = path.join(home, "candidate.tgz");
